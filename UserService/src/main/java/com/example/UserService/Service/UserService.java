@@ -54,7 +54,7 @@ public class UserService {
         if (authentication.isAuthenticated()) {
             return jwtService.generateToken(user.getUsername());
         } else {
-            return "fail";
+            return "Incorrect username or password";
         }
     }
 
