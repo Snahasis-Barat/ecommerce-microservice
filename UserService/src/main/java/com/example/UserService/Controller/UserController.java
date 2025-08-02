@@ -35,14 +35,19 @@ public class UserController {
     @PostMapping("/login")
     public String login(@RequestBody User user) {
 
-        return service.verify(user);
+        return service.generateToken(user);
+    }
+
+    @GetMapping("/verifyUser")
+    public boolean verifyUser(HttpServletRequest request)
+    {
+        return service.verifyUser(request);
     }
 
     @GetMapping("/getUsers")
     public ResponseEntity<?> getAllUsers(HttpServletRequest request)
     {
-        String authHeader = request.getHeader("Authorization");
-        System.out.println(authHeader);
+
         try {
             return ResponseEntity.status(HttpStatus.CREATED).body(service.getAllUsers(request));
         } catch (Exception e) {

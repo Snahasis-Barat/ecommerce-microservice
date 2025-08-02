@@ -45,7 +45,7 @@ public class UserService {
         return user;
     }
 
-    public String verify(User user) {
+    public String generateToken(User user) {
 
         BCryptPasswordEncoder bCryptPasswordEncoder=new BCryptPasswordEncoder();
 
@@ -59,20 +59,31 @@ public class UserService {
     }
 
     public List<User> getAllUsers(HttpServletRequest request) throws Exception {
+
+        if(!verifyUser(request))
+        {
+            throw new AccessDeniedException("User");
+        }
+        return repo.findAll();
+
+    }
+
+    public boolean verifyUser(HttpServletRequest request)
+    {
         String authHeader = request.getHeader("Authorization");
         String token = null;
         String username = null;
-
+        boolean authorisation=false;
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             token = authHeader.substring(7);
             username = jwtService.extractUserName(token);
         }
 
-        if (!jwtService.validateToken(token)) {
-            throw new AccessDeniedException("User not authorized to view the resource");
-        }
-        return repo.findAll();
+        if (username=="admin") {
 
+            authorisation=true;
+        }
+        return authorisation;
     }
 
     public String resetPassword(User user) throws Exception {
