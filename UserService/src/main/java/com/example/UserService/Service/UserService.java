@@ -58,7 +58,7 @@ public class UserService {
         }
     }
 
-    public List<User> getAllUsers(HttpServletRequest request) throws Exception {
+    public List<User> getAllUsers(String request) throws Exception {
 
         if(!verifyUser(request))
         {
@@ -68,18 +68,19 @@ public class UserService {
 
     }
 
-    public boolean verifyUser(HttpServletRequest request)
+    public boolean verifyUser(String request)
     {
-        String authHeader = request.getHeader("Authorization");
+
         String token = null;
         String username = null;
         boolean authorisation=false;
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7);
+        if (request != null && request.startsWith("Bearer ")) {
+            token = request.substring(7);
+            System.out.println(token);
             username = jwtService.extractUserName(token);
         }
 
-        if (username=="admin") {
+        if (username.equals("admin")) {
 
             authorisation=true;
         }

@@ -39,13 +39,14 @@ public class UserController {
     }
 
     @GetMapping("/verifyUser")
-    public boolean verifyUser(HttpServletRequest request)
+    public boolean verifyUser(@RequestHeader("Authorization")String request)
     {
+        System.out.println("Authorisation header from User service "+request);
         return service.verifyUser(request);
     }
 
     @GetMapping("/getUsers")
-    public ResponseEntity<?> getAllUsers(HttpServletRequest request)
+    public ResponseEntity<?> getAllUsers(@RequestHeader("Authorization") String request)
     {
 
         try {

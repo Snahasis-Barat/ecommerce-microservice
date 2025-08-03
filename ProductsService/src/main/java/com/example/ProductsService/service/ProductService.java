@@ -22,7 +22,15 @@ public class ProductService {
     @Autowired
      UserFeignClient userFeignClient;
 
-    public Product createProduct(Product product,HttpServletRequest request) throws AccessDeniedException {
+
+    public Product createProduct(Product product,String request) throws AccessDeniedException {
+        try{
+            userFeignClient.verifyUser(request);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
         if(!userFeignClient.verifyUser(request))
         {
             throw new AccessDeniedException("User not authorized to access the resource");
@@ -30,7 +38,7 @@ public class ProductService {
         productRepo.save(product);
        return product ;
     }
-    public Product updateProduct(Product product, HttpServletRequest request) throws AccessDeniedException {
+    public Product updateProduct(Product product, String request) throws AccessDeniedException {
 
         if(!userFeignClient.verifyUser(request))
         {
@@ -50,7 +58,7 @@ public class ProductService {
         productRepo.save(updatedProduct);
         return updatedProduct;
     }
-    public void deleteProduct(int productId,HttpServletRequest request) throws AccessDeniedException {
+    public Product deleteProduct(int productId,String request) throws AccessDeniedException {
         if(!userFeignClient.verifyUser(request))
         {
             throw new AccessDeniedException("User not authorized to access the resource");
@@ -61,6 +69,8 @@ public class ProductService {
             throw new ProductNotFoundException("Product not found for id "+productId);
         }
         productRepo.deleteById(Math.toIntExact(productId));
+
+        return product;
     }
 
     public List<Product> getAllProducts()
