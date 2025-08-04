@@ -7,8 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="EurekaServer" />
-        <module name="UserService" />
+        <module name="api-gateway" />
         <module name="ProductsService" />
+        <module name="UserService" />
       </profile>
     </annotationProcessing>
   </component>
@@ -17,6 +18,7 @@
       <module name="EurekaServer" options="-parameters" />
       <module name="ProductsService" options="-parameters" />
       <module name="UserService" options="-parameters" />
+      <module name="api-gateway" options="-parameters" />
     </option>
   </component>
 </project>
