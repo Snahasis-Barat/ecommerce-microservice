@@ -54,6 +54,21 @@ public class ProductController {
 
     }
 
+    @GetMapping("/getProduct/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable int productId)
+    {
+     try{
+         return  ResponseEntity.status(HttpStatus.OK).body(productService.getProductById(productId));
+     }
+     catch(ProductNotFoundException e)
+     {
+         return  ResponseEntity.status(HttpStatus.NOT_FOUND).body(productService.getProductById(productId));
+     }
+
+
+
+    }
+
     @DeleteMapping("/deleteProduct/{id}")
     public ResponseEntity<?> deleteProduct(@RequestHeader("Authorization") String request,@PathVariable int id)
     {
