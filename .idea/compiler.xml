@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="EurekaServer" />
         <module name="api-gateway" />
+        <module name="CartService" />
         <module name="ProductsService" />
         <module name="UserService" />
       </profile>
@@ -15,6 +16,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="CartService" options="-parameters" />
       <module name="EurekaServer" options="-parameters" />
       <module name="ProductsService" options="-parameters" />
       <module name="UserService" options="-parameters" />
