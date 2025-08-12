@@ -24,19 +24,26 @@ public class CartService {
     UserFeignClient userFeignClient;
 
     public List<CartResponse> addToCart(String headerRequest, AddToCartRequest cartRequest) throws AccessDeniedException {
-        ResponseEntity<String> response=verifyUser(headerRequest);
 
-        List<CartResponse> cartItems=response.getStatusCode()== HttpStatus.OK?cartRequest.getItems().stream().map(items-> {
+
+        if(verifyUser(headerRequest)==null)
+        {
+            throw new AccessDeniedException("User not authenticated");
+
+        }
+        List<CartResponse> cartItems=cartRequest.getItems().stream().map(items-> {
 
             CartResponse cartResponse=new CartResponse();
+            cartResponse.setUserName(getUserName(headerRequest));
+            
             return cartResponse;
-        }).collect(Collectors.toList()):List.of();
+        }).collect(Collectors.toList());
 
         return cartItems;
     }
 
 
-    @CircuitBreaker(name="ProductsService", fallbackMethod="serviceUnavailableResponse")
+    @CircuitBreaker(name="CartService", fallbackMethod="serviceUnavailableResponse")
     public ResponseEntity<String> verifyUser(String request) throws AccessDeniedException {
 
         if (!userFeignClient.verifyUser(request)) {
@@ -44,6 +51,12 @@ public class CartService {
 
         }
         return ResponseEntity.status(HttpStatus.OK).body("User verified");
+    }
+
+    @CircuitBreaker(name="CartService", fallbackMethod="serviceUnavailableResponse")
+    public String getUserName(String request)  {
+
+        return userFeignClient.getUserName(request);
     }
 
     public ResponseEntity<String> serviceUnavailableResponse(String request, Throwable throwable)

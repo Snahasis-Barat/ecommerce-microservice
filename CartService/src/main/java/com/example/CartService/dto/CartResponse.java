@@ -2,7 +2,7 @@ package com.example.CartService.dto;
 
 public class CartResponse {
 
-    private int userId;
+    private String userName;
 
     private String productName;
 
@@ -44,11 +44,11 @@ public class CartResponse {
         this.productName = productName;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

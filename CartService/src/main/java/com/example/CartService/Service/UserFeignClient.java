@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestHeader;
 @FeignClient(url = "http://localhost:8080",name="UserService")
 public interface UserFeignClient {
 
+    @GetMapping("/getUserName")
+    public String getUserName(@RequestHeader("Authorization")String request);
+
     @GetMapping("/users/verifyUser")
     boolean verifyUser(@RequestHeader("Authorization")String request);
 }

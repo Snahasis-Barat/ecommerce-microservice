@@ -76,7 +76,7 @@ public class UserService {
         boolean authorisation=false;
         if (request != null && request.startsWith("Bearer ")) {
             token = request.substring(7);
-            System.out.println(token);
+
             username = jwtService.extractUserName(token);
         }
 
@@ -85,6 +85,19 @@ public class UserService {
             authorisation=true;
         }
         return authorisation;
+    }
+
+    public String getUsername(String request)
+    {
+        String token = null;
+        String username = null;
+        boolean authorisation=false;
+        if (request != null && request.startsWith("Bearer ")) {
+            token = request.substring(7);
+
+            username = jwtService.extractUserName(token);
+        }
+        return username;
     }
 
     public String resetPassword(User user) throws Exception {

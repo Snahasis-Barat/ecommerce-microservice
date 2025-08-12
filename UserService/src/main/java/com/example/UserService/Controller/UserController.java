@@ -41,8 +41,15 @@ public class UserController {
     @GetMapping("/verifyUser")
     public boolean verifyUser(@RequestHeader("Authorization")String request)
     {
-        System.out.println("Authorisation header from User service "+request);
+
         return service.verifyUser(request);
+    }
+
+    @GetMapping("/getUserName")
+    public String getUserName(@RequestHeader("Authorization")String request)
+    {
+        System.out.println("Authorisation header from User service "+request);
+        return service.getUsername(request);
     }
 
     @GetMapping("/getUsers")

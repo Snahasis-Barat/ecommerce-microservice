@@ -19,7 +19,7 @@ public class Cart {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
    private int id;
 
-    private int userId;
+    private String userName;
 
     private int productId;
 
