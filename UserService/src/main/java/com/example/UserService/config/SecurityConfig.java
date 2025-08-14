@@ -35,7 +35,7 @@ public class SecurityConfig {
 
         return http.csrf(customizer -> customizer.disable()).
                 authorizeHttpRequests(request -> request
-                        .requestMatchers("/users/login", "/users/resetPassword","/users/register","/users/verifyUser").permitAll()
+                        .requestMatchers("/users/login", "/users/resetPassword","/users/register","/users/verifyUser","/users/getUserName").permitAll()
                         .anyRequest().authenticated()).
                 httpBasic(Customizer.withDefaults()).
                 sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

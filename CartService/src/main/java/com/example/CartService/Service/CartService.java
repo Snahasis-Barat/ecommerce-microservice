@@ -1,8 +1,11 @@
 package com.example.CartService.Service;
 
+import com.example.CartService.dao.CartRepository;
 import com.example.CartService.dto.AddToCartRequest;
 import com.example.CartService.dto.CartRequest;
 import com.example.CartService.dto.CartResponse;
+import com.example.CartService.model.Cart;
+import com.example.ProductsService.model.Product;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,25 +21,33 @@ import java.util.stream.Collectors;
 public class CartService {
 
     @Autowired
-    CartService cartService;
+    CartRepository cartRepository;
 
     @Autowired
     UserFeignClient userFeignClient;
 
-    public List<CartResponse> addToCart(String headerRequest, AddToCartRequest cartRequest) throws AccessDeniedException {
 
+    @Autowired
+    ProductFeignClient productFeignClient;
 
-        if(verifyUser(headerRequest)==null)
-        {
-            throw new AccessDeniedException("User not authenticated");
+    public List<Cart> addToCart(String headerRequest, List<CartRequest> cartRequest) throws AccessDeniedException {
 
-        }
-        List<CartResponse> cartItems=cartRequest.getItems().stream().map(items-> {
+        String username = getUserName(headerRequest);
+//        List<Integer> productIds = cartRequest.stream()
+//                .map(CartRequest::getProductId)
+//                .toList();
 
-            CartResponse cartResponse=new CartResponse();
-            cartResponse.setUserName(getUserName(headerRequest));
-            
-            return cartResponse;
+        List<Cart> cartItems=cartRequest.stream().map(items-> {
+
+            Product p=productFeignClient.fetchProductById(items.getProductId());
+            return Cart.builder()
+                    .userName(username)
+                    .productName(p.getName())
+                    .productDescription(p.getDescription())
+                    .productPrice(p.getPrice())
+                    .productQuantity(items.getQuantity())
+                    .build();
+
         }).collect(Collectors.toList());
 
         return cartItems;

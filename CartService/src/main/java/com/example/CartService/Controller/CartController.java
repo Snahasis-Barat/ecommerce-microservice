@@ -8,12 +8,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.CacheResponse;
+import java.util.List;
 
 @RestController
 @RequestMapping("/cart")
@@ -22,7 +20,8 @@ public class CartController {
     @Autowired
     CartService cartService;
 
-    public ResponseEntity<?> addToCart(@RequestHeader("Authorization") String headerRequest, @RequestBody AddToCartRequest cartRequest)
+    @PostMapping("/addToCart")
+    public ResponseEntity<?> addToCart(@RequestHeader("Authorization") String headerRequest, @RequestBody List<CartRequest> cartRequest)
     {
         try{
             return ResponseEntity.status(HttpStatus.CREATED).body(cartService.addToCart(headerRequest,cartRequest));

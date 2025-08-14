@@ -7,6 +7,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.*;
 
+@Data
+@Builder
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor

@@ -63,8 +63,8 @@ public class ProductController {
         }
     }
 
-    @GetMapping("/fetchProduct/{id}")
-    public Product fetchProductById(int productId) {
+    @GetMapping("/fetchProduct/{productId}")
+    public Product fetchProductById(@PathVariable  int productId) {
         try {
             return productService.getProductById(productId);
         } catch (ProductNotFoundException e) {
