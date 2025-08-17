@@ -39,9 +39,11 @@ public class CartService {
 
         List<Cart> cartItems=cartRequest.stream().map(items-> {
 
+
             Product p=productFeignClient.fetchProductById(items.getProductId());
             return Cart.builder()
                     .userName(username)
+                    .productId(p.getId())
                     .productName(p.getName())
                     .productDescription(p.getDescription())
                     .productPrice(p.getPrice())
@@ -50,7 +52,7 @@ public class CartService {
 
         }).collect(Collectors.toList());
 
-        return cartItems;
+        return cartRepository.saveAll(cartItems);
     }
 
 
@@ -73,6 +75,6 @@ public class CartService {
     public ResponseEntity<String> serviceUnavailableResponse(String request, Throwable throwable)
     {
         System.err.println("Fallback triggered due to: " + throwable.getMessage());
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("User service temporarily unavailable");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User service temporarily unavailable");
     }
 }

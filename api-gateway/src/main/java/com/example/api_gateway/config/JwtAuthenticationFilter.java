@@ -53,7 +53,7 @@ public class JwtAuthenticationFilter implements GlobalFilter, Ordered {
 
         // Bypass authentication for public endpoints like login/register
         if (request.getPath().toString().contains("/users/login") ||
-                request.getPath().toString().contains("/users/register") || request.getPath().toString().contains("/users/resetPassword") || request.getPath().toString().contains("/users/verifyUser") || request.getPath().toString().contains("/users/getUserName") || request.getPath().toString().contains("/products/getProducts") || request.getPath().toString().contains("/products/addProducts")|| request.getPath().toString().contains("/products/getProductById/{id}") || request.getPath().toString().contains("products/fetchProduct/{id}")) {
+                request.getPath().toString().contains("/users/register") || request.getPath().toString().contains("/users/resetPassword") || request.getPath().toString().contains("/users/verifyUser") || request.getPath().toString().contains("/users/getUserName") || request.getPath().toString().contains("/products/getProducts") || request.getPath().toString().contains("/products/addProducts")|| request.getPath().toString().contains("/products/getProductById/{id}")) {
             return chain.filter(exchange);
         }
 
